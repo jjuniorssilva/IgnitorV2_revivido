@@ -1,4 +1,4 @@
-void notifyClients(String response) { // essa função é recebe e trasmite o feedback para o cliente socket
+void notifyClients(String response) { // essa função é recebe e transmite o feedback para o cliente socket
   ws.textAll(response);
 }
 
@@ -20,6 +20,8 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) { // essa fun�
       notifyClients(String((char*)data));
      }else if (strcmp((char*)data, "DES=0") == 0){
       iniciar_descarga(false,(char*)data);
+     }else if (strcmp((char*)data, "CNX") == 0){
+      notifyClients(String((char*)data));
      }
      delay(10);
   }

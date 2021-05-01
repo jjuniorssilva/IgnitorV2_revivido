@@ -1,7 +1,15 @@
+//esp8266
+/*
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <LiquidCrystal_I2C.h>
+*/
+//esp32
+#include <WiFi.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+
+#include <LiquidCrystal_I2C.h> // verificar o library 
 #include <SPI.h>
 #include <SD.h>
 #include "index.h"
@@ -20,8 +28,8 @@ const int chipSelect = D8;// SD CARD
 //const int  ADSK = D7    //SCK
 
 bool contagem = false, carga=false, descarga=false;
-int time_cont=10,bateria=0, cap_carga=90;
-unsigned long time_atual = 0, aux_contagem=0,aux_cont_update=0,empuxo=0;
+int time_cont=10,bateria=0, cap_carga=0;
+unsigned long time_atual = 0, aux_contagem=0,aux_cont_update=0,empuxo=0,aux=0;
 
 // Cria o objeto AsyncWebServer na porta  80
 AsyncWebServer server(80);
@@ -73,4 +81,11 @@ void loop() {
   updateIntefaceData(time_atual); // Atualiza a inteface remota com os dados coletados
   updateDisplayData();// Atualiza a inteface local com os dados coletados
   //armazenarDados(time_atual); // Armazena os dados no sd
+  if(time_atual-aux>1000){
+    bateria+=5;
+    cap_carga+=6;
+    aux=time_atual;
+    if(bateria>100)bateria=0;
+    if(cap_carga>100)cap_carga=0;
+  }
 }
