@@ -15,21 +15,22 @@
 #include "index.h"
 LiquidCrystal_I2C lcd(0x3F, 20, 4);
 
-const char* ssid = "Dayane";
-const char* password = "92378687";
+const char* ssid = "";
+const char* password = "";
 
 const int pin_ig = D4;
 const int pin_carga = D1;
-const int pin_bateria = D7;
+const int pin_coleta_carga = D1;
+const int pin_coleta_bateria = D7;
 const int pin_bottao_ig = D5;
 const int pin_bottao_carga = D8;
 const int chipSelect = D8;// SD CARD
 //const int  ADDO = D6    //Data Out
 //const int  ADSK = D7    //SCK
 
-bool contagem = false, carga=false, descarga=false;
+bool contagem = false;
 int time_cont=10,bateria=0, cap_carga=0;
-unsigned long time_atual = 0, aux_contagem=0,aux_cont_update=0,empuxo=0,aux=0;
+unsigned long time_atual = 0, aux_contagem=0,aux_cont_update=0,empuxo=0;
 
 // Cria o objeto AsyncWebServer na porta  80
 AsyncWebServer server(80);
@@ -41,6 +42,9 @@ void setup(){
   pinMode(pin_bottao_ig, INPUT_PULLUP);
   pinMode(pin_bottao_carga, INPUT_PULLUP); // Se comportar como pull_down
   pinMode(pin_ig, OUTPUT);
+  pinMode(pin_carga, OUTPUT);
+  pinMode(pin_coleta_carga, INPUT);
+  pinMode(pin_coleta_bateria, INPUT);
   //pinMode(ADDO, INPUT_PULLUP);   //entrada para receber os dados
   //pinMode(ADSK, OUTPUT);         //saída para SCK
   // interrupções dos botoes
@@ -69,8 +73,8 @@ void setup(){
   Serial.println(WiFi.localIP());
   lcd.setCursor(0, 1);
   lcd.print("Acesse:"+WiFi.localIP());
-  delay(2000);
-  updateDisplayData(); // apos wxibir o ip por 2s, inicializa a interface de exibição
+  delay(3000);
+  updateDisplayData(); // apos exibir o ip por 3s, inicializa a interface de exibição
 }
 
 void loop() {
@@ -81,11 +85,4 @@ void loop() {
   updateIntefaceData(time_atual); // Atualiza a inteface remota com os dados coletados
   updateDisplayData();// Atualiza a inteface local com os dados coletados
   //armazenarDados(time_atual); // Armazena os dados no sd
-  if(time_atual-aux>1000){
-    bateria+=5;
-    cap_carga+=6;
-    aux=time_atual;
-    if(bateria>100)bateria=0;
-    if(cap_carga>100)cap_carga=0;
-  }
 }

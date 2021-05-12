@@ -17,21 +17,19 @@ void iniciar_ignicao(bool op, char* data){ // quando é chamada altera o status 
 }
 void iniciar_carga(bool op, char* data){// quando é chamada altera o status de carregamento dos cap e sinalisa ao usuario 
   if(op){
-    carga=true;
-    notifyClients(String(data));
+    digitalWrite(pin_carga, HIGH);
   }else{
-    carga=false;
-    notifyClients(String(data));
+    digitalWrite(pin_carga, LOW);
   }
+  notifyClients(String(data));
 }
 void iniciar_descarga(bool op, char* data){// quando é chamada altera o status de descarregamento dos cap e sinalisa ao usuario 
   if(op){
-    descarga=true;
-    notifyClients(String(data));
+    //digitalWrite(pin_descarga, HIGH); // obs descarga não está declarado
   }else{
-    descarga=false;
-    notifyClients(String(data));
+    //digitalWrite(pin_descarga, LOW);
   }
+  notifyClients(String(data));
 }
 
 // funções usadas durante a interrupçao (usuario manual)

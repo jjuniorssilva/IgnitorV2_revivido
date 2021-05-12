@@ -26,8 +26,8 @@ void coletarDados(){ // essa funcção centraliza as requisições de dados
   return Count;
 } */
 int coletarCargaCap(){ // quando chamado faz a leitura do pin_carga e mapeia 
-  return  map(analogRead(pin_carga), 0, 840, 0, 100);// 840 é o valor aproximado para correcao da tensao
+  return  map(analogRead(pin_coleta_carga), 0, 840, 0, 100);// 840 é o valor aproximado para correcao da tensao
 }
 int coletarBateria(){// quando chamado faz a leitura do pin_bateria e mapeia 
-  return  map(analogRead(pin_bateria), 0, 840, 0, 100);// Ajustar caso for usar
+  return  map(analogRead(pin_coleta_bateria), 0, 840, 0, 100);// Ajustar caso for usar
 }
